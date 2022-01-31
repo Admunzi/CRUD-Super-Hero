@@ -13,13 +13,13 @@ $velocidad = $data[0]["velocidad"];
     <title>Document</title>
 </head>
 <body>
-    <h1>CRUD Editar</h1>
+    <h1>CRUD EDIT</h1>
     <form action="" method="POST">
-        <label>Nombre <input type="text" name="inputNombre" value="<?php echo $nombre?>"></label>
-        <label>Velocidad <input type="text" name="inputVelocidad" value="<?php echo $velocidad?>"></label>
+        <label>Name <input type="text" name="inputNombre" value="<?php echo $nombre?>"></label>
+        <label>Speed <input type="text" name="inputVelocidad" value="<?php echo $velocidad?>"></label>
         <input type="submit" value="Cambiar datos">
     </form>
-    <a href="../home">Volver</a>
+    <a href="../home">Back</a>
 
 </body>
 </html>

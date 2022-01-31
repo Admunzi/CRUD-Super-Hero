@@ -9,22 +9,22 @@
 </head>
 <body>
     <div class="container-titulo">
-        <h1>CRUD Mysql</h1>
+        <h1>CRUD MySQL</h1>
         <form action="" method="POST">
             <input type="text" name="inputValor" >
-            <input type="submit" value="Buscar" class="filter-btn buton-buscar">
+            <input type="submit" value="FIND" class="filter-btn buton-buscar">
         </form>
     </div>
     <div>
         <table>
             <tr>
-                <th colspan="2">LISTAR USUARIOS</th>
-                <th><a href="./add" class="filter-btn buton-mas">Añadir</a></th>
+                <th colspan="2">SHOW SUPER HERO</th>
+                <th><a href="./add" class="filter-btn buton-mas">ADD</a></th>
             </tr>
             <tr>
-              <th>Nombre</th>
-              <th>Velocidad</th>
-              <th>Accion</th>
+              <th>Name</th>
+              <th>Speed</th>
+              <th>Action</th>
             </tr>
             
             <?php
