@@ -1,64 +1,53 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Superheroe;
+use App\Models\Citizen;
+use App\Models\Superhero;
+use App\Models\User;
 
 class IndexController extends BaseController{
     
     public function IndexAction(){
         $data = array();
-        $superheroe = Superheroe::getInstancia();
-        $data = $superheroe->getLast();
-        $this-> renderHTML('../views/index_view.php',$data);
-    }
+        $superheroe = Superhero::getInstancia();
 
-    public function addAction(){
-        if (isset($_POST['inputNombre'])) {
-            $formulario = ($_POST["inputNombre"] == "" || $_POST["inputVelocidad"] == "") ? false: true;
+        if (isset($_POST['inputUser'])) {
+            if ($_POST['inputUser'] != "" && $_POST['inputPassword'] != "") {
+                //Comprobamos si el usuario está en la bd
+                $userObj = User::getInstancia();
+                $userObj->setUser($_POST['inputUser']);
+                $userObj->setPassword($_POST['inputPassword']);
 
-            if ($formulario) {
-                $superheroe = Superheroe::getInstancia();
-                $superheroe->setNombre($_POST["inputNombre"]);
-                $superheroe->setVelocidad($_POST["inputVelocidad"]);            
-                $superheroe->set();
-                header('Location:'.DIRBASEURL.'/home');
+                $aDataUser = $userObj->getUserLogin();
+                if (!empty($aDataUser)){
+                    $idUser = $aDataUser[0]['id'];
+                    //Comprobamos el rol superhero o ciudadano
+                    $superheroObj = Superhero::getInstancia();
+                    $aDataHero = $superheroObj->getByIdUser($idUser);
+
+                    session_start();
+                    if (!empty($aDataHero)){
+                        $_SESSION['perfil'] = "Hero";
+                    }else{
+                        $citizenObj = Citizen::getInstancia();
+                        $_SESSION['perfil'] = "Citizen";
+
+                    }
+                    
+                    var_dump($_SESSION['perfil']);
+
+                }
             }
         }
-
-        //Si no llega post o ni valida
-        $this-> renderHTML('../views/addSuperheroe_view.php');
-    }
-
-    public function delAction($request){
-        $elementos = explode('/',$request);
-        $id = end($elementos);
-        $objSuperHeroe = Superheroe::getInstancia();
-        $objSuperHeroe->delete($id);
-        header('Location:'.DIRBASEURL.'/home');
-    }
-
-    public function editAction($request){
-        $elementos = explode('/',$request);
-        $id = end($elementos);
-
-        if (isset($_POST['inputNombre'])) {
-            $formulario = ($_POST["inputNombre"] == "" || $_POST["inputVelocidad"] == "") ? false: true;
-
-            if ($formulario) {
-                $superheroe = Superheroe::getInstancia();
-                $superheroe->setId($id);
-                $superheroe->setNombre($_POST["inputNombre"]);
-                $superheroe->setVelocidad($_POST["inputVelocidad"]);            
-                $superheroe->edit();
-                header('Location:'.DIRBASEURL.'/home');
-            }
-
+        
+        if (isset($_POST['inputValue'])) {
+            $valueInput = $_POST['inputValue'];
+            $data = $superheroe->getContains($valueInput);
         }else{
-            $data = array();
-            $objSuperHeroe = Superheroe::getInstancia();
-            $data = $objSuperHeroe->get($id);
+            $data = $superheroe->getAll();
         }
-        $this-> renderHTML('../views/editSuperheroe_view.php',$data);
+        
+        $this-> renderHTML('../views/index_view.php',$data);
     }
 }
 
