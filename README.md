@@ -6,7 +6,7 @@
 ## Users and Passwords examples
 | Cityzens      | Superhero | Superhero Expert |
 | ----------- | ----------- | ----------- |
-| dani / dani | carola / carola | toret / toret
+| dani / dani | bart / bart | toret / toret
 | antonio / antonio | xmaadix / xmaadix | carola / carola
 
 ## Redirección 
