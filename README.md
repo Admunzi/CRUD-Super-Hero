@@ -1,10 +1,7 @@
-# CRUD Super Hero
-
-![Imagen application](./img/main.PNG)
 
 # CRUD Super Hero
 
-## BD db_blog.sql
+## BD db_superheros.sql
 
 ## Users and Passwords examples
 | Cityzens      | Superhero | Superhero Expert |
