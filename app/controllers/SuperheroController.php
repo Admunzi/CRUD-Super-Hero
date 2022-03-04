@@ -48,6 +48,12 @@ class SuperheroController extends BaseController{
     public function DeleteSuperheroAction($requestWeb){
         $elementos = explode('/',$requestWeb);
         $id = end($elementos);
+
+        //Security layer
+        if ($_SESSION['idProfile'] != $id) {
+            header('Location: /home');
+        }
+
         $objSuperHero = Superhero::getInstancia();
         $objSuperHero->delete($id);
         header('Location: /home');
@@ -56,6 +62,11 @@ class SuperheroController extends BaseController{
     public function EditSuperheroAction($requestWeb){
         $elementos = explode('/',$requestWeb);
         $id = end($elementos);
+
+        //Security layer
+        if ($_SESSION['idProfile'] != $id) {
+            header('Location: /home');
+        }
 
         //Parametros para subida de archivos
         $data = array();

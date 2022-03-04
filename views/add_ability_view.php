@@ -20,7 +20,7 @@
                 <div class="row">
                     <div>
                         <a href="/home"><img src="../img/logo.svg" alt="Logo img"></a>
-                        <span>Add <b>Request</b></span>
+                        <span>Add <b>Ability</b></span>
                     </div>
                     <div>
                         
@@ -30,10 +30,25 @@
                 </div>
             </div>
             <div class="containerMain">
-                <form action="" method="POST">
-                    <label>Title: <input type="text" name="inputTitle"></label>
-                    <label>Description: <textarea name="inputDescription" id="" cols="30" rows="10"></textarea></label>
 
+                <h2>Add ability to Hero</h2>
+                <form action="" method="POST">
+                    <select name="selectAbilities">
+                        <?php
+                        foreach ($data as $elemento) {
+                            echo "<option value='".$elemento['id']."'>".$elemento['name']."</option>";
+                        }
+                        ?>
+                    </select>
+                    <label>Value: <input type="text" name="inputValue"></label>
+                    <input type="submit" value="Submit">
+                </form>
+
+                <h2>Add ability to DB</h2>
+                <form action="" method="POST">
+                    <label>
+                        <input type="text" name="inputName">
+                    </label>
                     <input type="submit" value="Submit">
                 </form>
             </div>

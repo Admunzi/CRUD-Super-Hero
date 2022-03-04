@@ -25,17 +25,22 @@ class IndexController extends BaseController{
                     $superheroObj = Superhero::getInstancia();
                     $aDataHero = $superheroObj->getByIdUser($idUser);
 
-                    session_start();
                     if (!empty($aDataHero)){
-                        $_SESSION['perfil'] = "Hero";
+                        if ($aDataHero[0]['evolution_type'] == "Beginner") {
+                            $_SESSION['profile'] = "Hero";
+                            $_SESSION['idProfile'] = $aDataHero[0]['id'];
+                        }else{
+                            $_SESSION['profile'] = "SuperHero";
+                            $_SESSION['idProfile'] = $aDataHero[0]['id'];
+                        }
+
                     }else{
                         $citizenObj = Citizen::getInstancia();
-                        $_SESSION['perfil'] = "Citizen";
+                        $aDataCitizen = $citizenObj->getByIdUser($idUser);
 
+                        $_SESSION['profile'] = "Citizen";
+                        $_SESSION['idProfile'] = $aDataCitizen[0]['id'];
                     }
-                    
-                    var_dump($_SESSION['perfil']);
-
                 }
             }
         }

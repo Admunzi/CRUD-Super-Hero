@@ -30,19 +30,36 @@ if (isset($_POST['inputValue'])) {
 						<span>Manage <b>Heros</b></span>
 					</div>
 					<div>
-						<form action="" method="POST">
-							<label>User:  <input type="text" name="inputUser"></label>
-							<label>Password:  <input type="password" name="inputPassword"></label>
-							<input type="submit" value="Send">
-						</form>
-						<a href="/register-citizen">Register</a>
+						<?php
+						if ($_SESSION['profile'] == "Guest") {
+							?>
+							<form action="" method="POST">
+								<label>User:  <input type="text" name="inputUser"></label>
+								<label>Password:  <input type="password" name="inputPassword"></label>
+								<input type="submit" value="Send">
+							</form>
+							<a href="/register-citizen">Register</a>
+							<?php
+						}else{
+							?>
+							<h1><?php echo $_SESSION['profile']?></h1>
+							<a href="/close-session">Close Session</a>
+							<?php
+						}
+						?>
 					</div>
 					<div>
 						<form action="" method="POST">
 							<label><input type="text" name="inputValue" value="<?php echo $valueInput?>"></label>
 							<input type="submit" value="Find">
 						</form>
-						<a href="/add-superhero" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+						<?php
+						if ($_SESSION['profile'] == "SuperHero") {
+							?>
+							<a href="/add-superhero" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+							<?php
+						}
+						?>
 					</div>
                 </div>
             </div>
@@ -69,9 +86,19 @@ if (isset($_POST['inputValue'])) {
 								<td><?php echo $elemento['evolution_type'];?></td>
 								<td><?php echo $elemento['created_at'];?></td>
 								<td>
-									<a href="/edit-superhero/<?php echo $elemento['id'];?>" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-									<a href="/delete-superhero/<?php echo $elemento['id'];?>" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-									<a href="/request/<?php echo $elemento['id'];?>" class="look"><span class="material-icons">assignment</span></a>
+									<?php
+									if ($_SESSION['profile'] == "SuperHero") {
+										?>
+										<a href="/edit-superhero/<?php echo $elemento['id'];?>" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+										<a href="/delete-superhero/<?php echo $elemento['id'];?>" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+										<?php
+									}
+									if ($_SESSION['profile'] == "Citizen" || $_SESSION['idProfile'] == $elemento['id']) { // y es igual al id del superhero
+										?>
+										<a href="/request/<?php echo $elemento['id'];?>" class="look"><span class="material-icons">assignment</span></a>
+										<?php
+									}
+									?>
 									<a href="/hero-abilities/<?php echo $elemento['id'];?>" class="look"><span class="material-icons">visibility</span></a>
 								</td>
 							</tr>

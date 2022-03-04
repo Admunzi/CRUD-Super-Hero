@@ -89,5 +89,26 @@ class Citizen extends DBAbstractModel {
         $this->mensaje = 'SH eliminado';
     }
 
+    public function getByIdUser($idUser=''){
+        $this->query = "
+            SELECT *
+            FROM citizens
+            WHERE idUser = :idUser";
+        //Cargamos los parámetros.
+        $this->parametros['idUser']= $idUser;
+
+        //Ejecutamos consulta que devuelve registros.
+        $this->get_results_from_query();
+
+        if(count($this->rows) == 1) {
+            foreach ($this->rows[0] as $propiedad=>$valor) {
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = 'sh encontrado';
+        }else {
+            $this->mensaje = 'sh no encontrado';
+        }
+        return $this->rows;
+    }
 }
 ?>

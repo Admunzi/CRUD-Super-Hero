@@ -52,12 +52,12 @@ class Request extends DBAbstractModel {
     }
 
     public function set() {
-        $this->query = "INSERT INTO request(title, description, completed, isSuperhero, idCitizen)
-                        VALUES(:title, :description, :completed, :isSuperhero, :idCitizen)";
+        $this->query = "INSERT INTO request(title, description, completed, idSuperhero, idCitizen)
+                        VALUES(:title, :description, :completed, :idSuperhero, :idCitizen)";
         $this->parametros['title']= $this->title;
         $this->parametros['description']= $this->description;
         $this->parametros['completed']= $this->completed;
-        $this->parametros['isSuperhero']= $this->isSuperhero;
+        $this->parametros['idSuperhero']= $this->idSuperhero;
         $this->parametros['idCitizen']= $this->idCitizen;
         $this->get_results_from_query();
         $this->mensaje = 'SH agregado correctamente';
@@ -102,15 +102,46 @@ class Request extends DBAbstractModel {
         return $this->rows;
     }
     public function edit() {
-        $this->query = "UPDATE request SET title= :title, description= :description, completed= :completed, isSuperhero= :isSuperhero, idCitizen= :idCitizen, updated_at=CURRENT_TIMESTAMP WHERE id= :id";
+        $this->query = "UPDATE request SET title= :title, description= :description, completed= :completed, idSuperhero= :idSuperhero, idCitizen= :idCitizen, updated_at=CURRENT_TIMESTAMP WHERE id= :id";
         $this->parametros['title']= $this->title;
         $this->parametros['description']= $this->description;
         $this->parametros['completed']= $this->completed;
-        $this->parametros['isSuperhero']= $this->isSuperhero;
+        $this->parametros['idSuperhero']= $this->idSuperhero;
         $this->parametros['idCitizen']= $this->idCitizen;
         $this->parametros['id']= $this->id;
         $this->get_results_from_query();
         $this->mensaje = 'SH editado correctamente';
+    }
+
+    public function completeRequestById() {
+        $this->query = "UPDATE request SET completed= :completed, updated_at=CURRENT_TIMESTAMP WHERE id= :id";
+        $this->parametros['completed'] = 1;
+        $this->parametros['id']= $this->id;
+        $this->get_results_from_query();
+        $this->mensaje = 'SH editado correctamente';
+    }
+
+    public function getCountRequestFromHero($idHero=''){
+        $this->query = "
+            SELECT *
+            FROM `request` 
+            WHERE idSuperhero = :idHero AND completed != 0;";
+
+        //Cargamos los parámetros.
+        $this->parametros['idHero']= $idHero;
+
+        //Ejecutamos consulta que devuelve registros.
+        $this->get_results_from_query();
+        
+        if(count($this->rows) == 1) {
+            foreach ($this->rows[0] as $propiedad=>$valor) {
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = 'sh encontrado';
+        }else {
+            $this->mensaje = 'sh no encontrado';
+        }
+        return $this->rows;
     }
 
     public function delete($id){
@@ -119,6 +150,5 @@ class Request extends DBAbstractModel {
         $this->get_results_from_query();
         $this->mensaje = 'SH eliminado';
     }
-
 }
 ?>

@@ -26,7 +26,15 @@
                         
                     </div>
                     <div>
-						<!-- <a href="/add-request/" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Request</span></a> -->
+						<?php
+						$elementos = explode('/',$_SERVER['REQUEST_URI']);
+						$idHero = end($elementos);
+						if ($_SESSION['profile'] == "Citizen") {
+							?>
+								<a href="/add-request/<?php echo $idHero?>" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Request</span></a>
+							<?php
+						}
+						?>
                     </div>
                 </div>
             </div>
@@ -53,7 +61,14 @@
 								<td><?php echo ($elemento['completed']!= 0)? "Completed": "No completed";?></td>
 								<td><?php echo $elemento['created_at'];?></td>
 								<td>
-									<a href="/delete-request/<?php echo $elemento['id'];?>" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+								<?php
+									if ($elemento['completed'] == 0 && $_SESSION['idProfile'] == $idHero) {
+										?><a href="/complete-request/<?php echo $elemento['id']."/".$idHero;?>" class="look"><span class="material-icons">done</span></a><?php
+									}
+									if ($_SESSION['idProfile'] == $idHero) {
+										?><a href="/delete-request/<?php echo $elemento['id'];?>" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a><?php
+									}
+								?>
 								</td>
 							</tr>
 							<?php

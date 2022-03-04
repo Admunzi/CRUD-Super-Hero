@@ -154,5 +154,12 @@ class Superhero extends DBAbstractModel {
         $this->mensaje = 'SH eliminado';
     }
 
+    public function changeEvolutionType() {
+        $this->query = "UPDATE superheros SET evolution_type = :evolution_type, updated_at=CURRENT_TIMESTAMP WHERE id= :id";
+        $this->parametros['evolution_type'] = "Expert";
+        $this->parametros['id']= $this->id;
+        $this->get_results_from_query();
+        $this->mensaje = 'SH editado correctamente';
+    }
 }
 ?>

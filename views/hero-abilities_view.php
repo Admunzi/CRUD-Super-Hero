@@ -25,7 +25,14 @@
                         
                     </div>
                     <div>
-						<!-- <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Ability</span></a> -->
+						<?php
+							$elementos = explode('/',$_SERVER['REQUEST_URI']);
+							$idHero = end($elementos);
+
+						if ($_SESSION['profile'] == "SuperHero" || $_SESSION['profile'] == "Hero" && $_SESSION['idProfile'] == $idHero) {
+							?><a href="/add-ability/<?php echo $idHero;?>" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a><?php
+						}?>
+						
                     </div>
                 </div>
             </div>
@@ -37,7 +44,10 @@
 						<tr>
 							<th>Name</th>
 							<th>Value</th>
-							<th>Option</th>
+							<?php
+							if ($_SESSION['profile'] == "SuperHero" || $_SESSION['profile'] == "Hero" && $_SESSION['idProfile'] == $idHero) {
+								?><th>Option</th><?php
+							}?>
 						</tr>
 					</thead>
 					<tbody>
@@ -47,10 +57,17 @@
 							<tr>
 								<td><?php echo $elemento['name'];?></td>
 								<td><?php echo $elemento['value'];?></td>
-								<td>
-									<!-- <a href="/edit-ability" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a> -->
-									<a href="/delete-ability/<?php echo $elemento['id'];?>" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-								</td>
+								<?php
+									if ($_SESSION['profile'] == "SuperHero" || $_SESSION['profile'] == "Hero" && $_SESSION['idProfile'] == $idHero) {
+										?>
+									<td>
+										<!-- <a href="/edit-ability" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a> -->
+										<a href="/delete-ability/<?php echo $elemento['id'];?>" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+									</td>
+										<?php
+									}
+
+								?>
 							</tr>
 							<?php
 						}
